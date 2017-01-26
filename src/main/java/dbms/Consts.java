@@ -42,6 +42,5 @@ public final class Consts {
     public static final int COLUMN_TYPE_INTEGER = 1;
     public static final int COLUMN_TYPE_VARCHAR = 2;
     public static final int COLUMN_TYPE_DATETIME = 3;
-    public static final List<Integer> COLUMN_TYPES =
-            Arrays.asList(COLUMN_TYPE_INTEGER, COLUMN_TYPE_VARCHAR, COLUMN_TYPE_DATETIME);
+    public enum COLUMN_TYPES {COLUMN_TYPE_INTEGER, COLUMN_TYPE_VARCHAR, COLUMN_TYPE_DATETIME};
 }

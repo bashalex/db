@@ -1,6 +1,7 @@
 package dbms.command;
 
 import dbms.Consts;
+import dbms.query.QueryResult;
 import dbms.schema.Row;
 import dbms.schema.Schema;
 
@@ -10,8 +11,7 @@ public class CommandResult {
     private long start;
     private int status;
     private float timeSpent;
-    private ArrayList<Schema> schema = new ArrayList<Schema>();
-    private ArrayList<Row> results = new ArrayList<Row>();
+    private QueryResult queryResult;
 
     public CommandResult() {
         this.status = Consts.STATUS_COMMAND_UNKNOWN;
@@ -37,7 +37,7 @@ public class CommandResult {
     public String toConsoleString() {
         finishCommand();
 
-        String result = "\nResult took " + this.timeSpent + " and " + this.results.size() + " rows returned";
+        String result = "\nResult took " + this.timeSpent + " and " + this.queryResult.getRowsNumber() + " rows returned";
         return result;
     }
 }
