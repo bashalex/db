@@ -13,6 +13,7 @@ public final class Consts {
 
     // Database options
     public static final int BLOCK_SIZE = 4096;
+    public static final int BLOCK_HEADER_SIZE = 300;
 
     // Commands
     public static final String COMMAND_EXIT = "exit";

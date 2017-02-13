@@ -22,7 +22,7 @@ public class Server {
     }
 
     public void start() {
-        try (ServerSocket serverSocket = new ServerSocket(portNumber);) {
+        try (ServerSocket serverSocket = new ServerSocket(portNumber)) {
             System.out.println("dbms.Server started. Listening on Port " +  portNumber);
             while (true) {
                 Socket clientSocket = serverSocket.accept();

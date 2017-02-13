@@ -6,31 +6,45 @@ import dbms.schema.Schema;
 import java.util.ArrayList;
 
 public class QueryResult {
-    private ArrayList<Schema> schema = new ArrayList<Schema>();
-    private ArrayList<Row> results = new ArrayList<Row>();
+    private Schema schema;
+    private ArrayList<Row> results = new ArrayList<>();
     private int rowsNumber = 0;
 
     public void setResults(ArrayList<Row> results) {
         this.results = results;
+        this.rowsNumber = results.size();
     }
 
     public ArrayList<Row> getResults() {
         return results;
     }
 
-    public void setSchema(ArrayList<Schema> schema) {
-        this.schema = schema;
-    }
-
-    public ArrayList<Schema> getSchema() {
+    public Schema getSchema() {
         return schema;
     }
 
-    public void setRowsNumber(int rowsNumber) {
-        this.rowsNumber = rowsNumber;
+    public void setSchema(Schema schema) {
+        this.schema = schema;
     }
 
     public int getRowsNumber() {
         return rowsNumber;
+    }
+
+    @Override
+    public String toString() {
+        return "QueryResult{" +
+                "schema=" + schema +
+                ", results=" + results +
+                ", rowsNumber=" + rowsNumber +
+                '}';
+    }
+
+    public void appendResults(ArrayList<Row> rows) {
+        if (this.results == null) {
+            this.results = rows;
+        } else {
+            this.results.addAll(rows);
+        }
     }
 }

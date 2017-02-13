@@ -2,13 +2,14 @@ package dbms.schema;
 
 import dbms.Consts;
 import dbms.command.CommandResult;
+import dbms.storage.BufferManager;
 
 public class SchemaManager {
 
     private String shemaRoot;
 
     public SchemaManager() {
-        // TODO load schema to RAM
+        BufferManager.getInstance().loadSchemas();
         this.shemaRoot = Consts.SCHEMA_ROOT_PATH;
     }
 

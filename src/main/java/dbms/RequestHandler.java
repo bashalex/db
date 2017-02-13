@@ -27,6 +27,9 @@ public class RequestHandler {
 
             CommandResult commandResult;
 
+//            TODO: remove it later
+          queryManager.executeCommand("fullscan");
+
             while ((userInput = in.readLine()) != null) {
                 commandManager = new CommandManager(userInput);
                 System.out.println("Received message from " + Thread.currentThread().getName() + " : " + userInput);
@@ -73,7 +76,7 @@ public class RequestHandler {
             System.out.println("I/O exception: " + e);
             return 1;
         } catch (Exception ex) {
-            System.out.println("Exceprion in Thread Run. Exception : " + ex);
+            System.out.println("Exception in Thread Run. Exception : " + ex);
             return 1;
         }
     }
