@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class BufferManager {
     private static final BufferManager instance = new BufferManager();
@@ -58,39 +59,32 @@ public class BufferManager {
 
     private ArrayList<Row> readAllEntities(Page page) {
         Schema schema = getSchema(page.getMetaFileName());
-        ArrayList<Row> rows = new ArrayList<>();
         ByteBuffer wrapped = ByteBuffer.wrap(page.getData());
-        String v;
-        for (int i = 0; i < schema.getColumns().size(); ++i) {
-            ArrayList<String> values = new ArrayList<>(schema.getColumns().size());
-            int startByte = page.getPointers().get(i);
-            for (Column column: schema.getColumns()) {
-                switch (column.getType()) {
-                    case Consts.COLUMN_TYPE_INTEGER:
-                        v = String.valueOf(wrapped.getInt(startByte));
-                        values.add(v);
-                        break;
-                    case Consts.COLUMN_TYPE_VARCHAR:
-                        char[] s = new char[column.getSize() / 2];
-                        for (int j = 0; j < column.getSize() / 2; ++j) {
-                            s[j] = wrapped.getChar(startByte + 2 * j);
-                        }
-                        v = String.valueOf(s).trim();
-                        values.add(v);
-                        break;
-                    case Consts.COLUMN_TYPE_DATETIME:
-                        Date date = new Date();
-                        date.setTime(wrapped.getInt(startByte) * 1000L);
-                        v = date.toString();
-                        values.add(v);
-                        break;
-                }
-                startByte += column.getSize();
-            }
 
-            rows.add(new Row(values));
-        }
-        return rows;
+        return page.getPointers().stream()
+                .map(startByte -> {
+                    final int[] curByte = {startByte};
+                    return schema.getColumns().stream().map(column -> {
+                        switch (column.getType()) {
+                            case Consts.COLUMN_TYPE_INTEGER:
+                                curByte[0] += column.getSize();
+                                return String.valueOf(wrapped.getInt(curByte[0]));
+                            case Consts.COLUMN_TYPE_VARCHAR:
+                                char[] s = new char[column.getSize() / 2];
+                                for (int j = 0; j < column.getSize() / 2; ++j) {
+                                    s[j] = wrapped.getChar(curByte[0] + 2 * j);
+                                }
+                                curByte[0] += column.getSize();
+                                return String.valueOf(s).trim();
+                            case Consts.COLUMN_TYPE_DATETIME:
+                                Date date = new Date();
+                                date.setTime(wrapped.getInt(curByte[0]) * 1000L);
+                                curByte[0] += column.getSize();
+                                return date.toString();
+                        }
+                        return null;
+                    }).filter(s -> s != null).collect(Collectors.toCollection(ArrayList::new));
+                }).map(Row::new).collect(Collectors.toCollection(ArrayList::new));
     }
 
     public boolean isBuffered(String pageId) {

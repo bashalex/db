@@ -59,7 +59,13 @@ public class Page  {
         System.out.println("nextPageByte: " + nextPageByte);
 
         this.pointers = new ArrayList<>(64);
-        for (int i = 0; i < 64; ++i) pointers.add(wrapped.getInt());
+        for (int i = 0; i < 64; ++i) {
+            int nextPointer = wrapped.getInt();
+            if (i > 0 && nextPointer == 0) break;
+            pointers.add(nextPointer);
+        }
+        pointers.trimToSize();
+
         System.out.println("pointers: " + pointers.toString() + ", len: " + pointers.size());
     }
 
