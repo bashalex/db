@@ -17,7 +17,7 @@ public class RequestHandler {
 
     int handleRequest() {
         try (BufferedReader in = new BufferedReader(new InputStreamReader(client.getInputStream()));
-             BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(client.getOutputStream()));) {
+             BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(client.getOutputStream()))) {
             String userInput;
             String userResponse;
 

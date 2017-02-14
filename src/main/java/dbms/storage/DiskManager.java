@@ -14,11 +14,11 @@ import java.util.stream.Stream;
 public class DiskManager {
     public static final DiskManager instance = new DiskManager();
 
-    public static DiskManager getInstance() {
+    static DiskManager getInstance() {
         return instance;
     }
 
-    public Page getPage(String pageId) throws IOException {
+    Page getPage(String pageId) throws IOException {
         // pageID: "fileName:startByte"
         File file = new File(Consts.SCHEMA_ROOT_PATH, pageId.substring(0, pageId.indexOf(":")) + ".data");
         System.out.println("file: " + file.getAbsolutePath());
@@ -33,15 +33,7 @@ public class DiskManager {
         return new Page(result);
     }
 
-//    private List<String> readFile(String filePath) throws FileNotFoundException {
-//        new BufferedReader(new FileReader(filePath))
-//                .lines()
-//                .map(line -> line.split(";"))
-//                .map()
-//                .collect(Collectors.toList());
-//    }
-
-    public Map<String, Schema> loadSchema() {
+    Map<String, Schema> loadSchema() {
         return getAllSchemaFilePaths()
                 .map(filePath -> {
                             try {
@@ -69,7 +61,7 @@ public class DiskManager {
         String name;
         ArrayList<Column> columns;
 
-        public Entity(String name, ArrayList<Column> columns) {
+        Entity(String name, ArrayList<Column> columns) {
             this.name = name;
             this.columns = columns;
         }

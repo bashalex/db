@@ -1,7 +1,6 @@
 package dbms.schema;
 
 import java.util.ArrayList;
-import java.util.function.Function;
 
 public class Schema {
     private ArrayList<Column> columns;

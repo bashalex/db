@@ -41,20 +41,14 @@ public class Main {
         // 300 bytes - header
 
         // write entities
-        writeEntity(1984, "hello", (int) (System.currentTimeMillis() / 1000L), os); // 318 is the last byte
-
-        // offset
-        for (int i = 0; i < 182; ++i) os.writeByte(0);
+        writeEntity(1984, "Hello", (int) (System.currentTimeMillis() / 1000L), os); // 318 is the last byte
+        for (int i = 0; i < 182; ++i) os.writeByte(0); // offset
 
         writeEntity(451, "from", (int) (System.currentTimeMillis() / 1000L), os); // 518 is the last byte
-
-        // offset
-        for (int i = 0; i < 482; ++i) os.writeByte(0);
+        for (int i = 0; i < 482; ++i) os.writeByte(0); // offset
 
         writeEntity(397, "the", (int) (System.currentTimeMillis() / 1000L), os); // 1018 is the last byte
-
-        // offset
-        for (int i = 0; i < 3078; ++i) os.writeByte(0);
+        for (int i = 0; i < 3078; ++i) os.writeByte(0); // offset
 
         // second page
 
@@ -77,18 +71,13 @@ public class Main {
 
         // write entities
         writeEntity(350, "other", (int) (System.currentTimeMillis() / 1000L), os); // 318 is the last byte
-
-        // offset
-        for (int i = 0; i < 182; ++i) os.writeByte(0);
+        for (int i = 0; i < 182; ++i) os.writeByte(0); // offset
 
         writeEntity(1234, "side", (int) (System.currentTimeMillis() / 1000L), os); // 518 is the last byte
+        for (int i = 0; i < 482; ++i) os.writeByte(0); // offset
 
-        // offset
-        for (int i = 0; i < 482; ++i) os.writeByte(0);
-
-        writeEntity(2017, "!", (int) (System.currentTimeMillis() / 1000L), os);
-        // offset
-        for (int i = 0; i < 3078; ++i) os.writeByte(0);
+        writeEntity(2017, "!", (int) (System.currentTimeMillis() / 1000L), os); // 1018 is the last byte
+        for (int i = 0; i < 3078; ++i) os.writeByte(0);  // offset
 
         os.close();
     }

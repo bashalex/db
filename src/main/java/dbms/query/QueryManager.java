@@ -22,7 +22,7 @@ public class QueryManager {
     }
 
     private void printResult(QueryResult result) {
-        System.out.println("\nRESULT:");
+        System.out.println("\nRESULT (number of entries: " + result.getRowsNumber() + "):");
         result.getSchema().getColumns().forEach(column -> System.out.print(column.getName() + "\t"));
         System.out.println();
         result.getResults().forEach(row -> System.out.println(row.getData()));
