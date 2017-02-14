@@ -60,7 +60,7 @@ public class Page  {
 
         this.pointers = new ArrayList<>(64);
         for (int i = 0; i < 64; ++i) pointers.add(wrapped.getInt());
-        System.out.println("pointers: " + pointers.toString());
+        System.out.println("pointers: " + pointers.toString() + ", len: " + pointers.size());
     }
 
     @Override

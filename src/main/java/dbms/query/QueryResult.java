@@ -46,5 +46,6 @@ public class QueryResult {
         } else {
             this.results.addAll(rows);
         }
+        rowsNumber += rows.size();
     }
 }

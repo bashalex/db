@@ -10,6 +10,7 @@ import dbms.schema.Schema;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -29,7 +30,6 @@ public class BufferManager {
 
     public QueryResult executeQuery(QueryPlan queryPlan) throws IOException {
         QueryResult queryResult = new QueryResult();
-        //TODO write interaction with DiskManager and inner translation table
         System.out.println("executeQuery:");
         // full scan:
         String curPageId = "aaa:0";
@@ -38,7 +38,6 @@ public class BufferManager {
                 bufferPage(curPageId);
             }
             Page page = bufferTable.get(curPageId);
-//            System.out.println("page: " + page);
 
             queryResult.appendResults(readAllEntities(page));
             queryResult.setSchema(getSchema(page.getMetaFileName()));
@@ -48,7 +47,6 @@ public class BufferManager {
             }
 
             curPageId = String.format("%1$s:%2$d", page.getNextPageFileName(), page.getNextPageByte());
-            System.out.println("next page id: " + curPageId);
         }
 
         return queryResult;
@@ -62,12 +60,11 @@ public class BufferManager {
         Schema schema = getSchema(page.getMetaFileName());
         ArrayList<Row> rows = new ArrayList<>();
         ByteBuffer wrapped = ByteBuffer.wrap(page.getData());
-        String v = null;
+        String v;
         for (int i = 0; i < schema.getColumns().size(); ++i) {
             ArrayList<String> values = new ArrayList<>(schema.getColumns().size());
             int startByte = page.getPointers().get(i);
             for (Column column: schema.getColumns()) {
-                System.out.println("column: " + column + ", start: " + startByte);
                 switch (column.getType()) {
                     case Consts.COLUMN_TYPE_INTEGER:
                         v = String.valueOf(wrapped.getInt(startByte));
@@ -78,15 +75,16 @@ public class BufferManager {
                         for (int j = 0; j < column.getSize() / 2; ++j) {
                             s[j] = wrapped.getChar(startByte + 2 * j);
                         }
-                        v = String.valueOf(s);
+                        v = String.valueOf(s).trim();
                         values.add(v);
                         break;
                     case Consts.COLUMN_TYPE_DATETIME:
-                        v = String.valueOf(wrapped.getInt(startByte));
+                        Date date = new Date();
+                        date.setTime(wrapped.getInt(startByte) * 1000L);
+                        v = date.toString();
                         values.add(v);
                         break;
                 }
-                System.out.println("value: " + v);
                 startByte += column.getSize();
             }
 

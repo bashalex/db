@@ -28,7 +28,7 @@ public class Column {
                 return Consts.COLUMN_TYPE_INTEGER;
             case "varchar":
                 if (size == -1) throw new ValueException("Number of symbols must be specified");
-                this.size = size * 2;
+                this.size = size;
                 return Consts.COLUMN_TYPE_VARCHAR;
         }
         return -1;
