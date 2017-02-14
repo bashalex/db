@@ -20,7 +20,8 @@ public class Main {
     }
 
     public static void writeTestBinaryFile() throws FileNotFoundException, IOException {
-        DataOutputStream os = new DataOutputStream(new FileOutputStream("/tmp/simpledb/aaa.data"));
+        DataOutputStream os =
+                new DataOutputStream(new FileOutputStream(String.format("%1$s/aaa.data", Consts.SCHEMA_ROOT_PATH)));
         String metaFileName = "aaa";
         writeString(metaFileName, os, 20); // 20 bytes
 
